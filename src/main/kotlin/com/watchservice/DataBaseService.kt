@@ -14,6 +14,7 @@ class DataBaseService{
     private val connection: Connection
 
     init {
+        //FIXME вместо этого можно использовать инъекцию через @Value
         val props = Properties()
         val file = File(Paths.get("").toAbsolutePath().toString() +
                 "\\src\\main\\resources\\application.properties")
