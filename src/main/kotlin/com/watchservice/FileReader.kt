@@ -12,6 +12,7 @@ data class PersonData(val name: String, val lastname: String)
 class FileReader {
     fun read(fileName: String): List<PersonData> {
 
+        // TODO пути следует выносить в .properties файл
         val filePath = "D:\\Repositories\\WatchService\\src\\main\\kotlin\\assets"
         val file = Paths.get(filePath, fileName).toFile()
         var obj = listOf<PersonData>()
@@ -37,6 +38,7 @@ class FileReader {
 
         for (people in peopleList){
             if (dataBaseService.findPerson(people.name, people.lastname) > 0) {
+                // TODO в целях логгирования лучше использовать соответствующие библиотеки
                 println("ignore Person ${people.name} ${people.lastname}")
             } else {
                 dataBaseService.insert(people.name, people.lastname)
