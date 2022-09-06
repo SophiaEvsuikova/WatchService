@@ -4,20 +4,22 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
+
 import java.io.BufferedReader
 import java.nio.file.Paths
 
-
-class FileReader {
+@Component
+class FileReader(@Value("\${app.filepath}") val filepath: String) {
 
     @Autowired
-    var dataBaseService = DataBaseService()
+    lateinit var dataBaseService: DataBaseService
 
     private val logger = KotlinLogging.logger {}
     fun read(fileName: String): List<PersonData> {
 
-        val filePath = "D:\\Repositories\\watchServiceNew\\src\\main\\kotlin\\project\\assets"
-        val file = Paths.get(filePath, fileName).toFile()
+        val file = Paths.get(filepath, fileName).toFile()
         var obj = listOf<PersonData>()
 
         if (file.exists()) {
@@ -26,10 +28,10 @@ class FileReader {
 
             if (inputString.startsWith("[") and inputString.endsWith("]")) {
                 obj = Json.decodeFromString(inputString)
-                print(obj)
+                logger.info { "Get data $obj"}
             } else {
                 obj = listOf(Json.decodeFromString(inputString))
-                print(obj)
+                logger.info { "Get data $obj"}
             }
         }
         return obj
@@ -37,12 +39,12 @@ class FileReader {
 
     fun getPerson(peopleList: List<PersonData>){
 
-        //val dataBaseService = DataBaseService()
         for (people in peopleList){
             if (dataBaseService.findPerson(people.name, people.lastname) > 0) {
                 logger.info { "Ignore Person ${people.name} ${people.lastname}" }
             } else {
                 dataBaseService.insert(people.name, people.lastname)
+                logger.info { "Inserted Person ${people.name} ${people.lastname}" }
             }
         }
     }
