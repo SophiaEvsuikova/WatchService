@@ -1,1 +1,1 @@
-rootProject.name = "WatchService"
+rootProject.name = "watchServiceNew"

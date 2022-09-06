@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS PersonThirdTask
+CREATE TABLE IF NOT EXISTS Person
 (
     id   SERIAL,
     name VARCHAR(50) NOT NULL,
