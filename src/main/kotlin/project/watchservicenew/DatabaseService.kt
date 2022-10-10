@@ -1,7 +1,9 @@
 package project.watchservicenew
 
 import kotlinx.serialization.Serializable
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
 import java.sql.Connection
 import java.sql.DriverManager
@@ -17,6 +19,12 @@ class DataBaseService (@Value("\${app.url}") val url: String,
 
     val connection: Connection = DriverManager
         .getConnection(url, username, password)
+
+    /*
+    TODO когда работаем со спрингом лучше сразу использовать JdbcTemplate, а не стандартные классы из java.sql
+    @Autowired
+    private val jdbcTemplate: JdbcTemplate
+    */
 
     fun insert(name: String, lastname: String)
     {
